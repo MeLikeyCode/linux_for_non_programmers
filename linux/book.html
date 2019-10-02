@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <title>Linux for Non-programmers</title>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        
+    </head>
+    <body>
+        <h1 id="linux-for-non-programmers">Linux for Non-programmers</h1>
+<p>This (mini) book teaches you about the <em>fundamentals</em> of linux.</p>
+<ol>
+<li>It assumes you are an absolute beginner (thus everything will be taught, nothing will be assumed).</li>
+<li>Only the really important and very commonly used concepts/tools will be covered.</li>
+<li>You will get enough of a foundation to be able to discover and learn additional concepts/tools by yourself.</li>
+</ol>
+<h1 id="bits-bytes-numbers-characters">Bits, Bytes, Numbers, Characters</h1>
+<p>Computers only deal with numbers, but we often need them to deal with text, so how does that happen?</p>
+<p>As just mentioned, computers only store numbers. They store numbers as sequencies of 0s and 1s. Each 0 (or 1) is refered to as a <code>bit</code>. If you group 8 of these bits together, you get a <code>byte</code>.</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/bit_and_byte.png" alt="" title="bits and bytes"></p>
+<p>A byte can have many different patterns of 0s and 1s. Here are just a few examples:</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/byte_patterns.png" alt="" title="byte patterns"></p>
+<p>You can assign a number to each pattern.</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/bytes_to_numbers.png" alt="" title="bytes representing numbers"></p>
+<p>Now, you can think of the sequence of 0s and 1s (bits) as numbers, because each byte pattern represents a certain number. We can go a step further, and assign a character to each number. For example, we can say that the number <code>1</code> represents the character <code>a</code>, the number <code>2</code> represents the character <code>b</code>, the number <code>3</code> represents the character <code>c</code>, and so on.</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/numbers_to_characters.png" alt="" title="numbers representing characters"></p>
+<p>Thankfully, you don't make your own mapping of byte patterns to numbers and numbers to characters. There is already an established way of mapping byte patterns to numbers and an established way of mapping numbers to characters. It isn't worth your time to take a look at which byte patterns are mapped to which numbers, but you may want to take a quick peek at what numbers are mapped to what characters:</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/ascii_table.png" alt="" title="some of the ASCII characters, and what numbers represent them"></p>
+<p>The mapping above, is called the ASCII encoding. If you are interested to see all the characters ASCII supports and the numbers that represent them, google &quot;ascii table&quot;.</p>
+<p>The reason why a standard mapping of numbers to characters exists is to make communication easier. For example, if I want to create a file with the sequence of characters <code>abdullah</code> in it, how would I do that? Remember, computers can only store 0s and 1s (aka bits). Well, we know that we can group bits into bytes (groups of 8 bits), and we know that each byte pattern represents a different number. So now, we have a way of storing numbers in a file. How can we store characters? We go to the ASCII table, and for each of our characters, we find the associated number, and store that number in the file! When we give our file to someone else, they look at each number, go to the ASCII table, and find the associated character. So they go from a bunch of numbers, back to <code>abdullah</code>. Thankfully, this whole thing is automated, text editors and viewers do this for you automatically. When you type in a text editor, it is actually storing numbers in the file. When you view a file in a text viewer, it is taking each number in the file, and looking into the ASCII table to see which character that number represents, and then it is drawing that character for you!</p>
+<p>Why did we have this entire discussion if this whole process is automated for you? Because <em>understanding</em> how it works, just like understanding how almost anything works, is <em>very</em> fruitful. Just keep in mind that computers (and thus files) can only store numbers! That's it! But if people agree to interpret the numbers as characters (according to the ASCII table), then you can think of the file as storing characters, even though it is really storing numbers!</p>
+<p>Phew! That was long, but I hope the concept and the final message (that computers can only store numbers, but you can interpret the numbers how ever you want) is easy to grasp! One more thing, a sequence of characters, like <code>abdullah</code>, is more commonly refered to as a <strong>string</strong>. Remember this term, you will see it <em>everywhere</em>.</p>
+<h1 id="files-and-processes">Files and Processes</h1>
+<p>There are 2 places where a computer can store bits. Disk or RAM. Disk is a lot bigger, but RAM is a lot faster. So in other words, I can store a lot more things on disk, but accessing those things is much slower.</p>
+<p>A file is just a sequence of bits on <em>disk</em>. If the person who created the file put in byte patterns that can be interpreted as a string, then we say it is a <strong>text file</strong>. Otherwise, we say it is a <strong>binary file</strong>. <strong>Executable files</strong>  are binary files that contain instructions that your computer can follow.</p>
+<p>When you &quot;launch&quot; an executable file, the file is copied from disk to RAM, and then your computer (more specifically, your CPU) starts doing the instructions that were in the file. Why is it copied to RAM before the CPU starts following the instructions? Because the CPU can read the instructions off RAM much faster than off disk. The copy of the file's content on RAM is called a <strong>process</strong>. This is why some people say that a process is a running instance of a file. Because a file just sits there on disk, where as a process (the copy of the file on RAM) is actually being executed (aka the instructions are being followed) by your CPU.</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/files_and_processes.png" alt="" title="files and processes"></p>
+<h1 id="commands">Commands</h1>
+<p>When you are executing commands, you are actually launching executable files. In other words, you are creating processes (remember that the copy of an executable file on RAM is called a process). Each command, is actually the name of an executable file somewhere on your disk that will be launched when you execute the command. For example, executing the <code>pwd</code> command will launch the <code>/bin/pwd</code> executable file.</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/basic_command.png" alt="" title="executing a command is the same as launching an executable with that name"></p>
+<h2 id="arguments">Arguments</h2>
+<p>Recall, that when you launch an executable, you are basically copying the executable file to RAM, and then telling the CPU to follow the instructions in the copy of the file on RAM. Even though the process is just instructions, and the CPU is actually the one following it, people often like to think that the process is actually doing stuff (using the CPU). This is a common perspective to take, and so we will take it now. Before a process starts (i.e. before the CPU starts following its instructions), it is useful to tell most processes some more information on how to behave, what to do, or what data to operate on.</p>
+<p>We tell a process what to do or how to behave by giving it a bunch of strings, each string is called an <strong>argument</strong>. Each argument effects some aspect of how the program behaves.</p>
+<p>For example, consider launching the <code>cd</code> process. The first argument to the cd process tells it what directory to change to.</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/process_argument.png" alt="" title="giving a process information"></p>
+<h2 id="standard-input-standard-output-redirection-and-piping">Standard Input, Standard Output, Redirection and Piping</h2>
+<p>Most processes operate on some data and then produce some data. We call the data that it operates on <strong>input</strong> and the data it produces <strong>output</strong>.</p>
+<p>There are two ways to provide data to your process.</p>
+<ol>
+<li>By putting the data into a file, and then passing the <em>path</em> of the file as an argument to the process.</li>
+<li>By putting the data into the processe's <strong>standard input</strong> (or <strong>stdin</strong> for short).</li>
+</ol>
+<p>A processe's standard input is just a conceptual place you can put data into, and the process will read it from there.
+A processe's <strong>standard output</strong> is just a conceptual place that the process will put data (i.e. a place the process stores its output).</p>
+<p>Here is an example of feeding a process data by passing a file path to the data file as an argument.</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/input_data_as_arg.png" alt="" title="feed data to a process by specifying the file path of the data via an argument"></p>
+<p>When you execute a command, and you see a bunch of text in the console window, that is the output of the launched process. The standard output of launched processes are by default the terminal window. But you can redirect it. For example, let's redirect the output of the <code>ls</code> command to a file called <code>/home/abdullah/the_output.txt</code>:</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/redirect_to_file.png" alt="" title="redirecting the output of a command to a file"></p>
+<p>Notice, if you want to redirect the output of a command, just add <code>&gt; /path/to/file</code> after the command (and all of its arguments).</p>
+<p>You can actually take the output of one command (process) and put it as the input of another command (process).</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/pipe.png" alt="" title="piping"></p>
+<p>Let's disect what we are doing above. We are launching the <code>ls</code> process, giving it no arguments, but connecting its output to the input of the <code>grep</code> process (which we launch as well). We give the <code>grep</code> process an argument. The 1st argument of grep specifies the string to search. Where does <code>grep</code> search? It searches its standard input. The standard input of <code>grep</code> in this case is simply the output of the <code>ls</code> command. Thus we are effectively searching the output of the <code>ls</code> command for the string <code>abdullah</code>.</p>
+<p>Piping is a really powerful way of &quot;connecting&quot; or chaining commands. You can have some data flow through several processes, each process doing something with it. You can think of it like an assembly line of processes.</p>
+<h2 id="absolute-paths-relative-paths-current-working-directory">Absolute Paths, Relative Paths, Current Working Directory</h2>
+<p>All files and directories (directories are also called folders) on disk have a path. For example, if our disk directory structure looks like the following:</p>
+<ul>
+<li>bin (a directory)
+<ul>
+<li>grep</li>
+<li>ls</li>
+<li>pwd</li>
+</ul>
+</li>
+<li>home (a directory)
+<ul>
+<li>abdullah (a directory)
+<ul>
+<li>names.txt</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Every line above is either a directory or a file. If it is a directory, I have stated so, otherwise it is a file.</p>
+<p>The full path to the above <code>grep</code> file is <code>/bin/grep</code> because it is inside the bin folder. The full path to the <code>names.txt</code> file is <code>/home/abdullah/names.txt</code>.</p>
+<p>Every process, has what is known as a <strong>current working directory</strong> (sometimes simply called a <em>working directory</em>). Your terminal (aka console) is a process as well. Your terminal is a process that allows you to execute other processes (recall, when you execute a command in a terminal, you are simply launching an executable with the same name as the command! Please don't forget this!). Since every process has a working directory, and your terminal is a process, it too has a working directory.</p>
+<p>To view your terminals current working directory, execute the <code>pwd</code> command.</p>
+<p>Recall, that some processes take arguments (in the form of strings). Some processes expect their argument to be a path to a file or directory (because the process plans on doing something with the file or directory). I will call these type of arguments &quot;file arguments&quot;. There are two ways you can specify a file argument to a command.</p>
+<ol>
+<li>You can write the full path of the file or directory.</li>
+<li>You can write the path of the file or directory <em>relative</em> to the current working directory of your terminal.</li>
+</ol>
+<p>The <code>ls</code> command lists the contents (files and directories) of a target directory (which is specified via the 1st argument). You can specify the target directory using a full path or a relative path. By relative path, I mean a path that assumes your starting location is the current directory of your terminal. This will be clear in a moment, for now just move on.</p>
+<p>Here is an example of how you'd specify a full path to the Documents directory:</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/full_path_ls.png" alt="" title="passing in a full path"></p>
+<p>And here is an example of how you'd specify a relative path to the Documents directory (assuming our terminal's current working directory is <code>/home</code>):</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/ls_relative_path.png" alt="" title="passing in a relative path"></p>
+<p>The first approach, says &quot;start at the root of the directory structure, then go to the <code>home</code> directory, then to the <code>abdullah</code> directory, then to the <code>Documents</code> directory.</p>
+<p>The second approach says &quot;start at the current directory of the terminal (which is <code>home</code> in this case), then go to the <code>abdullah</code> directory, then to the <code>Documents</code> directory.</p>
+<p>Notice that regardless of which method (full path or relative), you got the same results. So, as long as your relative path is correct, both ways will give you the same results!</p>
+<h2 id="spaces-in-arguments">Spaces in arguments</h2>
+<p>If you need to put spaces in an argument you are passing to a command, put quotes around the whole argument.</p>
+<pre><code class="language-shell"><div>echo "hello there mate"
+</div></code></pre>
+<p>Simple as that. <code>hello there mate</code> is a single argument to the <code>echo</code> command. If we did not put the quotes around it, it would be treated as 3 seperate arguments.</p>
+<h1 id="filedirectory-permissions-and-usersgroups">File/Directory Permissions and Users/Groups</h1>
+<p>In linux, you can have many <strong>users</strong> (each with a username and id). Files and directories <em>belong</em> to a user. The <strong>owner</strong> of the file/directory is the user that the file/directory belongs to. Users can be part of a group.</p>
+<p>A file/directory has permissions. The permissions of a file/directory specify what various people can do with the file/directory. For example, a user can have read permission (can view the file), write permission (can edit the file), and execute permission (can make a process from the file). For each file/directory, you can specify what permissions the owner has, what permissions members of the owner's group has, and what permissions everyone else has.</p>
+<p>You can use <code>ls -l</code> (the <code>ls</code> command with <code>-l</code> argument) to view the permissions of files/directories in the current working directory:</p>
+<p><img src="file:////home/abd/Documents/linux_for_non_programmers/linux/images/permissions.png" alt="" title="viewing file/directory permissions using ls -l"></p>
+<p>In a later section, we will show you how to change the owner or permissions of a file/directory.</p>
+<h1 id="commonly-used-commands">Commonly Used Commands</h1>
+<p>You now understand that executing commands is basically creating a process from an executable file (and giving it some arguments in the form of strings). You also know that a lot of commands take an argument that should specify a file or directory. You know that in this case, you can pass either a full path or a relative path to the file/directory. Furthermore, you know that some commands take input data from standard input and spit output data to standard output. You also know that you can redirect the output of a command to a file or as the input of another command!</p>
+<p>That's a lot that you've learned! Now, let's put it all together, have some fun, and use some commonly used commands.</p>
+<h2 id="pwd">pwd</h2>
+<p>The <code>pwd</code> command outputs (to standard out ofcourse! Anytime I say a command outputs, it is always to standard out, but you can ofcourse redirect it!) the current working directory of your terminal.</p>
+<h2 id="ls">ls</h2>
+<p>The <code>ls</code> command can list (i.e. outputs) the files and directories in a target directory.</p>
+<p>If you use it with no arguments, like so: <code>ls</code>, it will output all the files and directories that are in the current working directory of your terminal.</p>
+<p>You can pass a <code>-a</code> argument to even show hidden files/folders (hidden files/folders are those that begin with a dot, they are not displayed by ls by default):</p>
+<pre><code class="language-shell"><div>ls -a
+</div></code></pre>
+<p>You can pass a <code>-l</code> argument to output more information (such as size, modification date, owner) on each file/directory it lists.</p>
+<pre><code class="language-shell"><div>ls -l
+</div></code></pre>
+<p>You can pass both the <code>-a</code> and <code>-l</code> arguments (in any order) to get both effects!</p>
+<pre><code class="language-shell"><div>ls -a -l
+</div></code></pre>
+<p>By the way, usually commands don't care what order you pass arguments that begin with a <em>dash</em>. They do care about the order of arguments that do not have a dash.</p>
+<h2 id="cd">cd</h2>
+<p>The <code>cd</code> command changes your terminal's current working directory to a target directory.</p>
+<p>Let's say that my terminal's current working directory is <code>/home</code>, doing:</p>
+<pre><code class="language-shell"><div>cd /home/abdullah/Documents
+</div></code></pre>
+<p>Makes my terminals current working directory be <code>/home/abdullah/Documents</code>.</p>
+<p>Instead, I could have done:</p>
+<pre><code class="language-shell"><div>cd abdullah/Documents
+</div></code></pre>
+<p>And gotten the same effect! Think back to what I said about full versus relative paths! Hint: Arguments that represent a file or directory path, can be specified as full or relative paths. A full path begins with a slash, and it says &quot;start at the root of the directory structure&quot;. A relative path does not begin with a slash and it says &quot;start at the terminal's current working directory.&quot;</p>
+<p>This is a good place for me to show you another little trick with specifying paths. You can use the <code>..</code> string to mean &quot;go up one directory&quot;. So for example, if my current directory is <code>/home/abdullah</code> and I do:</p>
+<pre><code class="language-shell"><div>cd ..
+</div></code></pre>
+<p>My current directory will change to <code>/home</code> (because going &quot;up&quot; one directory from <code>abdullah</code> gives us the parent directory <code>home</code>).</p>
+<p>You can get fancy with using <code>..</code>, for example:</p>
+<pre><code class="language-shell"><div>cd ../fernando
+</div></code></pre>
+<p>The above path is specified by saying &quot;starting at the terminal's current working directory, go up one directory, then go down to a directory called <code>fernando</code>.</p>
+<h2 id="locate">locate</h2>
+<p>The <code>locate</code> command can be used to find files with a specified name.</p>
+<p>Let's say we wanted to find all files in our computer that have the string &quot;password&quot; in their name (i.e. find all files whos name has &quot;password&quot; in it). We can:</p>
+<pre><code class="language-shell"><div>locate password
+</div></code></pre>
+<p>There is one little catch. <code>locate</code> searches a database, not your actual file system. You don't really need to know where the data base is or any of those details (you can google that yourself if you are interested though). All you need to remember is, if you add new files, those files will not be found by <code>locate</code> unless you run <code>updatedb</code>.</p>
+<p>So basically, anytime you add or delete files from your computer, you should run <code>updatedb</code>.</p>
+<p>Since locate searches a database, it is VERY fast. But since it searches a database, if the file hasn't been entered into the database (by running updatedb after the file was added), it will not be found!</p>
+<h2 id="find">find</h2>
+<p>If you don't care for the blazingly fast speed of locate, you can use the <code>find</code> command for the same purpose without having to update a database. The find command actually searches your computer, not a database.</p>
+<pre><code class="language-shell"><div>find /home/abdullah/Documents -name passwords
+</div></code></pre>
+<p>The above will find all the files named <code>passwords</code> that resides in the directory <code>/home/abdullah/Documents</code>.</p>
+<h2 id="grep">grep</h2>
+<p><code>locate</code> and <code>find</code> search file names (i.e. if you want to find files with certain names), <code>grep</code> searches file content. In other words, you can use <code>grep</code> to find certain lines of a file that contain some string of interest.</p>
+<pre><code class="language-shell"><div>grep cool /home/abdullah/log.txt
+</div></code></pre>
+<p>The above command will search the file <code>/home/abdullah/log.txt</code> for any lines that contain <code>cool</code>, and it will output just those lines.</p>
+<p>You can pass in multiple files to search:</p>
+<pre><code class="language-shell"><div>grep cool /home/abdullah/log.txt /home/fernando/my_file.txt
+</div></code></pre>
+<p>The above command will search 2 files (<code>/home/abdullah/log.txt</code>, <code>/home/fernando/my_file.txt</code>) for lines containing <code>cool</code>. You can pass in as many files as you want.</p>
+<p>This is a good chance for us to practice piping the output of one command as the input of another.</p>
+<pre><code class="language-shell"><div>ls | grep abdullah
+</div></code></pre>
+<p>Before I explain what the above does, I need to tell you one more behavior of grep (and most other commands). <code>grep</code>, as you know, will take a file (or some files) and search for a certain line. If you don't provide any files via arguments, it will search its standard input. That last sentence is the key thing to remember! Reread it.</p>
+<p>So what we are doing above is: We use <code>ls</code> to output a bunch of lines that basically list out all the files and folders in the current working directory of our terminal, then we pass that as input to grep. Grep will search that input for lines matching &quot;abdullah&quot;, and it will output only those lines!</p>
+<p>This is a really powerful thing! You can think of piping as a way of connecting commands together to create powerfull little pipelines.</p>
+<h2 id="sudo">sudo</h2>
+<p>If you ever execute a command and you get an error that says something like &quot;permission denied&quot;, try adding the word <code>sudo</code> before your command.</p>
+<pre><code class="language-shell"><div>sudo SOME_COMMAND ARGUMENTS
+</div></code></pre>
+<p>Every other part of your command (including its arguments) should stay the same. Just add the sudo in the very beggining. But be careful when you use sudo. You can do some real damage with it.</p>
+<h2 id="chown">chown</h2>
+<p>The <code>chown</code> command can change the owner of a file or a directory.</p>
+<pre><code class="language-shell"><div>chown fernando /home/abdullah/names.txt
+</div></code></pre>
+<p>In the above example, we change the owner of the file <code>/home/abdullah/names.txt</code> to the user <code>fernando</code>.</p>
+<p>To change an entire directory, simply add the <code>-R</code> argument:</p>
+<pre><code class="language-shell"><div>chown -R fernando /home/abdullah
+</div></code></pre>
+<p>In the above example, we change the owner of everything inside the <code>/home/abdullah</code> directory to the user <code>fernando</code>.</p>
+<h2 id="chmod">chmod</h2>
+<p>The <code>chmod</code> command can change the permissions of a file/directory.</p>
+<p>Doing:</p>
+<pre><code class="language-shell"><div>chmod u=rwx
+</div></code></pre>
+<p>Will give the owner (specified by the u), read, write, and execute permissions. This means the the owner of the file can read the file, write (edit) it, and can execute (i.e. make a process from it) it (if it is an executable file).</p>
+<p>Doing:</p>
+<pre><code class="language-shell"><div>chmod g=r-x
+</div></code></pre>
+<p>Will give everyone who is in the same group as the owner read, and execute permissions, but not write (notice there is a dash where you would normally put a w).</p>
+<p>Doing</p>
+<pre><code class="language-shell"><div>chmod o=r-x
+</div></code></pre>
+<p>Will give everyone else, read and execute permission, but not write permission.</p>
+<p>So I'm hoping you see a pattern in using this command. The 1st argument of this command has a single character on the left hand side of the equal sign, and a 3 character string on the right hand side. If the left hand side letter is <code>u</code>, you are setting the permissions of the owner. If it is <code>g</code>, you are setting the permissions of everyone who is in the same group as the owner. If it is <code>o</code> (which stands for other), you are setting the permissions for everyone else. The 3 character string on the right hand side, simply specifies the permissions. <code>rwx</code> means give read, write and execute permission. <code>-wx</code> means give write and execute permission, etc. Basically, put a dash on whatever permission you <em>do not</em> want to give. Easy enough!</p>
+<h1 id="terminology">Terminology</h1>
+<p>Understanding the fundamentals of linux is very easy (for a logical/systematic person). The loosely defined and overloaded terminology makes it seem so much harder than it is. Here are some terms you might hear when working with linux.</p>
+<ul>
+<li><strong>console</strong>, <strong>terminal</strong>, <strong>shell</strong> - All 3 of these mean the same thing. A place where you can type commands (and thus launch executables).</li>
+<li><strong>bit</strong> - a tiny place (in memory or disk) that you can store either a 0 or a 1.</li>
+<li><strong>byte</strong> - 8 bits in a row is called a byte.</li>
+<li><strong>string</strong> - a sequence of characters (e.g. <code>abdullah</code>)</li>
+<li><strong>command</strong> - a command is what is entered into a terminal. The command has the same name as an executable file. Entering a command will cause the executable file to be launched (aka a process to be created).</li>
+<li><strong>process</strong> - the copy of an executable file on RAM, which is being executed by your CPU</li>
+<li><strong>full path</strong>, <strong>relative path</strong> - a path identifies a file or directory on your computer. The <em>full path</em>, starts at the root of the directory structure. <em>Relative path</em> starts at the current working directory of your terminal.</li>
+<li><strong>file</strong>, <strong>text file</strong>, <strong>binary file</strong> - A file is some bits on disk. If you can interpret the bits as a sequence of characters, we call it a text file, otherwise it is a binary file. If it is a binary file and it has instructions that the CPU can execute, we call it an executable file.</li>
+<li><strong>file/directory permissions</strong> - A file/directory's permissions specifies what certain users can do with the file/directory. Can they read it? Can they edit it? Can they execute it?</li>
+</ul>
+
+    </body>
+    </html>
