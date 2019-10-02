@@ -1,4 +1,25 @@
-# Linux for Non-programmers
+- [About Book](#about-book)
+- [Bits, Bytes, Numbers, Characters](#bits-bytes-numbers-characters)
+- [Files and Processes](#files-and-processes)
+- [Commands](#commands)
+  - [Arguments](#arguments)
+  - [Standard Input, Standard Output, Redirection and Piping](#standard-input-standard-output-redirection-and-piping)
+  - [Absolute Paths, Relative Paths, Current Working Directory](#absolute-paths-relative-paths-current-working-directory)
+  - [Spaces in arguments](#spaces-in-arguments)
+- [File/Directory Permissions and Users/Groups](#filedirectory-permissions-and-usersgroups)
+- [Commonly Used Commands](#commonly-used-commands)
+  - [pwd](#pwd)
+  - [ls](#ls)
+  - [cd](#cd)
+  - [locate](#locate)
+  - [find](#find)
+  - [grep](#grep)
+  - [sudo](#sudo)
+  - [chown](#chown)
+  - [chmod](#chmod)
+- [Terminology](#terminology)
+
+# About Book
 This (mini) book teaches you about the *fundamentals* of linux. 
 1. It assumes you are an absolute beginner (thus everything will be taught, nothing will be assumed). 
 2. Only the really important and very commonly used concepts/tools will be covered.
