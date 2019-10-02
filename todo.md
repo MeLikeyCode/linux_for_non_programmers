@@ -1,0 +1,39 @@
+- linux for absolute beginners
+    - DONE about
+        - intended audience
+            - not a software engineer/programmer
+        - very example/demonstration oriented (shows lots of quick little examples and the output they produce, tweak, and show updated output, etc, very interactive)
+    - DONE what is a command
+        - DONE - an executable file
+        - DONE - can take space seperated arguments
+        - DONE - has input (some text)
+        - DONE - has output (some text)
+    - DONE - pipes and redirection
+    - DONE - absolute and relative paths
+    - DONE - spaces in arguments
+    - DONE - file/folder permissions
+    - DONE users
+    - essential commands
+        - DONE - pwd
+        - DONE - cd
+        - DONE - ls (with -a -l -h options)
+        - DONE - grep
+        - DONE - locate (and updatedb)
+        - DONE - find
+        - DONE -sudo
+        - can add "essential commnads" episode 2, as I come up with more commands
+    - configuration files
+        - /etc/hosts
+    - terminology/glossary
+    - advanced (released in several subsequent episodes)
+        - file types
+            - all files are 0's and 1's
+            - you can interpret them as characters though
+                - text files
+            - further, you can interpret the characters of a text file
+                - xml
+                - json
+        - some more useful commands
+            - file
+        - writing scripts
+    - summary sheet
