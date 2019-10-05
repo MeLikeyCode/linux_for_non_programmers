@@ -245,11 +245,11 @@ Let's say we wanted to find all files in our computer that have the string "pass
 locate password
 ~~~~~~~
 
-There is one little catch. `locate` searches a database, not your actual file system. You don't really need to know where the data base is or any of those details (you can google that yourself if you are interested though). All you need to remember is, if you add new files, those files will not be found by `locate` unless you run `updatedb`.
+There is one little catch. `locate` searches a database, not your actual file system. You don't really need to know where the data base is or any of those details (you can google that yourself if you are interested though). All you need to remember is, if you add new files, those files will not be found by `locate` unless you run `sudo updatedb`.
 
-So basically, anytime you add or delete files from your computer, you should run `updatedb`.
+So basically, anytime you add or delete files from your computer, you should run `sudo updatedb`.
 
-Since locate searches a database, it is VERY fast. But since it searches a database, if the file hasn't been entered into the database (by running updatedb after the file was added), it will not be found!
+Since locate searches a database, it is VERY fast. But since it searches a database, if the file hasn't been entered into the database (by running `sudo updatedb` after the file was added), it will not be found!
 
 ## find
 If you don't care for the blazingly fast speed of locate, you can use the `find` command for the same purpose without having to update a database. The find command actually searches your computer, not a database.
